@@ -1,3 +1,5 @@
 set number
 set relativenumber
 set incsearch
+set scrolloff=5
+
