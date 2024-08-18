@@ -1,0 +1,13 @@
+[user]
+	name = Samuel Kopecky
+	email = samuel.kopecky@heureka.cz
+[core]
+	editor = vim
+[alias]
+	sw = switch
+	st = status
+	prm = pull --rebase origin master
+	po = push
+	pof = push --force origin
+[push]
+	default = current
