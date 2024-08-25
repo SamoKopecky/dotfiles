@@ -80,6 +80,8 @@ export PATH="$PATH:$HOME/go/bin"
 export PATH="$PATH:/opt/FreeTube"
 export PATH="$PATH:/opt/discord/discord"
 
+export EDITOR='vim'
+
 export KUBE_EDITOR='vim'
 export PYENV_ROOT="$HOME/.pyenv"
 export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
@@ -88,8 +90,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
 
 
 # Aliases
