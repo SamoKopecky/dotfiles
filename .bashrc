@@ -80,7 +80,6 @@ export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/go/bin"
 export PATH="$PATH:/opt/FreeTube"
 export PATH="$PATH:/opt/discord/discord"
-export PATH="$PATH:/home/work/.cache/pypoetry/virtualenvs/republish-tool-pfp2rW3v-py3.12/bin"
 
 export EDITOR='vim'
 
