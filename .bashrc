@@ -99,8 +99,13 @@ alias k=kubectl
 alias k9sdev='k9s --context gke_heu-k8s-dev_europe-west3_collective'
 alias k9sprep='k9s --context gke_heu-k8s-pre-prod_europe-west3_collective'
 alias k9sprod='k9s --context gke_heu-k8s-prod_europe-west3_collective'
+alias vim='nvim'
 alias xc="wl-copy"
 alias mt="make test"
 alias md="make down"
 alias mu="make up-d"
+
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+  tmux attach-session -t 0 || tmux new-session -s 0
+fi
 
