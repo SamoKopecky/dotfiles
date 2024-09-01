@@ -71,6 +71,7 @@ esac
 PROMPT_COMMAND=__prompt_command    
 
 source $HOME/.git-prompt.sh
+source /usr/share/bash-completion/completions/git
 
 # PATH
 export PATH="$PATH:$HOME/.local/bin/ppc-data-debug-tools"
@@ -79,12 +80,14 @@ export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/go/bin"
 export PATH="$PATH:/opt/FreeTube"
 export PATH="$PATH:/opt/discord/discord"
+export PATH="$PATH:/home/work/.cache/pypoetry/virtualenvs/republish-tool-pfp2rW3v-py3.12/bin"
 
 export EDITOR='vim'
 
 export KUBE_EDITOR='vim'
 export PYENV_ROOT="$HOME/.pyenv"
 export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
