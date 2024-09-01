@@ -1,14 +1,10 @@
 #!/bin/bash
 
-echo "Cloning tmux plugins"
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+echo "Instaling tmux pluings..."
+$HOME/.tmux/plugins/tpm/bin/install_plugins
 
-echo "Instaling tmux pluings"
-$HOME/.tmux/plugins/bin/install_plugins
-
-echo "Cloning vundle plugin manager"
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-
-echo "Instaling nvim plugins"
+echo "Instaling nvim plugins..."
 nvim '+PluginInstall' '+qall'
 
