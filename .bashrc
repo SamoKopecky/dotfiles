@@ -106,8 +106,10 @@ alias xc="wl-copy"
 alias mt="make test"
 alias md="make down"
 alias mu="make up-d"
+alias yd="yadm"
 
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
   tmux attach-session -t 0 || tmux new-session -s 0
 fi
 
+. "$HOME/.cargo/env"
