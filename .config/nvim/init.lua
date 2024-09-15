@@ -315,7 +315,7 @@ require('lazy').setup({
           vim.keymap.set('n', '<leader>tr', api.fs.rename, opts 'Rename')
           -- vim.keymap.set('n', 'R', api.tree.reload, opts 'Refresh')
           -- vim.keymap.set('n', 's', api.node.run.system, opts 'Run System')
-          -- vim.keymap.set('n', 'S', api.tree.search_node, opts 'Search')
+          vim.keymap.set('n', '<leader>ts', api.tree.search_node, opts 'Search')
           -- vim.keymap.set('n', 'u', api.fs.rename_full, opts 'Rename: Full Path')
           -- vim.keymap.set('n', 'U', api.tree.toggle_custom_filter, opts 'Toggle Filter: Hidden')
           -- vim.keymap.set('n', 'W', api.tree.collapse_all, opts 'Collapse')
