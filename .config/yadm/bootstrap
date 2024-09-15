@@ -8,11 +8,22 @@ $HOME/.tmux/plugins/tpm/bin/install_plugins
 sudo cp /etc/pacman.conf /etc/pacman.conf.yadm.backup
 
 # Enable multilib repo
-sudo sed -i '/#\[multilib\]/{N;s/#\[multilib\]\n#Include = \/etc\/pacman\.d\/mirrorlist/\[multilib\]\nInclude = \/etc\/pacman.d\/mirrorlist/}' /etc/pacman.conf
+
+if ! pacman -Sl multilib &>/dev/null; then
+	sudo tee -a /etc/pacman.conf > /dev/null <<EOT
+
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+EOT
+    echo "multilib repository has been added to /etc/pacman.conf."
+else
+    echo "multilib repository is already enabled."
+fi
+
 
 # Update system
 sudo pacman -Syu
 
 # Install all pacakges
-sudo pacman -Sy ~/.config/pacman/pkglist.txt
+sudo pacman -S --needed - < ~/.config/pacman/pkglist.txt
 
