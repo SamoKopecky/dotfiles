@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo pacman -Sy tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 echo "Instaling tmux pluings..."
 $HOME/.tmux/plugins/tpm/bin/install_plugins
@@ -30,3 +31,9 @@ sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/ya
 # Install all pacakges
 yay -S --needed - < ~/.config/pacman/pkglist.txt
 
+# Install plasma settings
+pipx install konsave
+pipx inject konsave setuptools
+
+# Install cargo
+curl https://sh.rustup.rs -sSf | sh

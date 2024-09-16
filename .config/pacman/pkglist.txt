@@ -1,6 +1,5 @@
 alacritty
 amd-ucode
-ansible
 ark
 base
 base-devel
@@ -55,15 +54,9 @@ plasma-workspace
 pre-commit
 python-black
 python-dotenv
-python-jose
-python-orjson
 python-pip
 python-pipx
-python-prettytable
-python-tld
-python-typing_extensions
 python311
-slack-desktop
 smartmontools
 spotify-launcher
 steam
@@ -76,12 +69,8 @@ vim
 wget
 wireless_tools
 wireplumber
-wowup-bin
-wowup-cf-bin
 xdg-utils
 xorg-xinit
 yadm
-yay-bin
-yay-bin-debug
 zram-generator
 zsh
