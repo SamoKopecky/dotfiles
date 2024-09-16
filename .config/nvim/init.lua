@@ -90,6 +90,8 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+vim.o.termguicolors = true
+
 -- Move lines
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv'", { desc = 'Move line down' })
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv'", { desc = 'Move line up' })
@@ -242,6 +244,23 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   {
+    'linux-cultist/venv-selector.nvim',
+    dependencies = {
+      'neovim/nvim-lspconfig',
+      'mfussenegger/nvim-dap',
+      'mfussenegger/nvim-dap-python', --optional
+      { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
+    },
+    lazy = false,
+    branch = 'regexp', -- This is the regexp branch, use this for the new version
+    config = function()
+      require('venv-selector').setup()
+    end,
+    keys = {
+      { ',v', '<cmd>VenvSelect<cr>' },
+    },
+  },
+  {
     'numToStr/Comment.nvim',
     opts = {
       -- add any options here
@@ -319,7 +338,7 @@ require('lazy').setup({
           -- vim.keymap.set('n', 'u', api.fs.rename_full, opts 'Rename: Full Path')
           -- vim.keymap.set('n', 'U', api.tree.toggle_custom_filter, opts 'Toggle Filter: Hidden')
           -- vim.keymap.set('n', 'W', api.tree.collapse_all, opts 'Collapse')
-          -- vim.keymap.set('n', 'x', api.fs.cut, opts 'Cut')
+          vim.keymap.set('n', '<leader>tx', api.fs.cut, opts 'Cut')
           -- vim.keymap.set('n', 'y', api.fs.copy.filename, opts 'Copy Name')
           -- vim.keymap.set('n', 'cr', api.fs.copy.relative_path, opts 'Copy Relative Path')
           vim.keymap.set('n', '<2-LeftMouse>', api.node.open.edit, opts 'Open')
@@ -958,14 +977,14 @@ require('lazy').setup({
 
   -- Theme
   {
-    'EdenEast/nightfox.nvim',
+    'AlexvZyl/nordic.nvim',
+    lazy = false,
+    priority = 1000,
     config = function()
-      vim.cmd 'colorscheme carbonfox'
+      require('nordic').load()
     end,
   },
-  -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
@@ -1042,8 +1061,9 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
+  { import = 'kickstart.plugins..autopairs' },
   -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.

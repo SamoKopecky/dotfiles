@@ -75,3 +75,5 @@ yadm
 zram-generator
 zsh
 go
+fd
+ripgrep

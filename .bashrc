@@ -64,7 +64,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+    # xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # Function to generate PS1 after CMDs
