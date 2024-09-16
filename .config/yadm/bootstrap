@@ -31,9 +31,16 @@ sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/ya
 # Install all pacakges
 yay -S --needed - < ~/.config/pacman/pkglist.txt
 
+# Remove orphans
+sudo pacman -Qdtq | sudo pacman -Rns -
+
 # Install plasma settings
 pipx install konsave
 pipx inject konsave setuptools
+konsave -i ~/.config/konsave/profiles/samo.knsv
+konsave -a samo
+
 
 # Install cargo
 curl https://sh.rustup.rs -sSf | sh
+

@@ -74,3 +74,4 @@ xorg-xinit
 yadm
 zram-generator
 zsh
+go
