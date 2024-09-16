@@ -24,6 +24,9 @@ fi
 # Update system
 sudo pacman -Syu
 
+# Install yay
+sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si && cd .. && sudo rm -r yay
+
 # Install all pacakges
-sudo pacman -S --needed - < ~/.config/pacman/pkglist.txt
+yay -S --needed - < ~/.config/pacman/pkglist.txt
 
