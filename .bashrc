@@ -64,6 +64,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 case "$TERM" in
+    # Disabled in favor of alacritty/nvim/tmux
     # xterm-color|*-256color) color_prompt=yes;;
 esac
 
@@ -92,20 +93,14 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-# eval "$(pyenv init -)"
-
-
 # Aliases
 alias k=kubectl
-alias k9sdev='k9s --context gke_heu-k8s-dev_europe-west3_collective'
-alias k9sprep='k9s --context gke_heu-k8s-pre-prod_europe-west3_collective'
-alias k9sprod='k9s --context gke_heu-k8s-prod_europe-west3_collective'
 alias vim='nvim'
 alias xc="wl-copy"
 alias mt="make test"
 alias md="make down"
 alias mu="make up-d"
+alias ml="make lint"
 alias yd="yadm"
 
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
@@ -113,3 +108,7 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
 fi
 
 . "$HOME/.cargo/env"
+
+if [ -f "$HOME/.work/.bashrc" ]; then
+    . "$HOME/.work/.bashrc"
+fi
