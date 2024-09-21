@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Backup /etc/pacman.conf before chaning
+sudo cp /etc/pacman.conf /etc/pacman.conf.yadm.backup
+
+# Enable multilib repo
+if ! pacman -Sl multilib &>/dev/null; then
+	sudo tee -a /etc/pacman.conf > /dev/null <<EOT
+
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+EOT
+    echo "multilib repository has been added to /etc/pacman.conf."
+else
+    echo "multilib repository is already enabled."
+fi
+
+
+# Update system
+sudo pacman -Syu
+
+# Install yay
+sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si && cd .. && sudo rm -r yay
+
+# Install all pacakges
+yay -S --needed - < ~/.config/pacman/pkglist.txt
+
+# Remove orphans
+sudo pacman -Qdtq | sudo pacman -Rns -

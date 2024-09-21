@@ -798,6 +798,8 @@ require('lazy').setup({
         'ruff',
         'black',
         'basedpyright',
+        'dockerfile-language-server',
+        'bash-language-server',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

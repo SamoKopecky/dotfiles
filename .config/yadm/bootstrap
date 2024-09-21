@@ -1,45 +1,17 @@
 #!/bin/bash
 
-sudo pacman -Sy tmux
+# Install packages
+$HOME/.config/yadm/bootstrap.d/packages
+
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 echo "Instaling tmux pluings..."
 $HOME/.tmux/plugins/tpm/bin/install_plugins
-
-# Backup /etc/pacman.conf before chaning
-sudo cp /etc/pacman.conf /etc/pacman.conf.yadm.backup
-
-# Enable multilib repo
-
-if ! pacman -Sl multilib &>/dev/null; then
-	sudo tee -a /etc/pacman.conf > /dev/null <<EOT
-
-[multilib]
-Include = /etc/pacman.d/mirrorlist
-EOT
-    echo "multilib repository has been added to /etc/pacman.conf."
-else
-    echo "multilib repository is already enabled."
-fi
-
-
-# Update system
-sudo pacman -Syu
-
-# Install yay
-sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si && cd .. && sudo rm -r yay
-
-# Install all pacakges
-yay -S --needed - < ~/.config/pacman/pkglist.txt
-
-# Remove orphans
-sudo pacman -Qdtq | sudo pacman -Rns -
 
 # Install plasma settings
 pipx install konsave
 pipx inject konsave setuptools
 konsave -i ~/.config/konsave/profiles/samo.knsv
 konsave -a samo
-
 
 # Install cargo
 curl https://sh.rustup.rs -sSf | sh
