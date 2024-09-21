@@ -101,7 +101,6 @@ alias mt="make test"
 alias md="make down"
 alias mu="make up-d"
 alias ml="make lint"
-alias yd="yadm"
 
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
   tmux attach-session -t 0 || tmux new-session -s 0
@@ -112,3 +111,5 @@ fi
 if [ -f "$HOME/.work/.bashrc" ]; then
     . "$HOME/.work/.bashrc"
 fi
+
+[ -f "$HOME/.yadm-completion.sh" ] && source "$HOME/.yadm-completion.sh"
