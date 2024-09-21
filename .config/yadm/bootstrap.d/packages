@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "Install packages? [Y/n]"
+read -r INSTALL 
+
+if ! [[ "$INSTALL" == "y" ]]; then
+	echo "Skipping packages install"	
+	exit 0
+fi
+
+YADM_DIR="$HOME/.config/yadm/bootstrap.d"
+
+. /etc/os-release
+OS=$ID
+
+if [[ -z "$OS" ]]; then
+	echo "Can't get distro, skipping package insaller, make sure /etc/os-release exists"
+	exit 1
+fi
+
+if [[ "$OS" == "arch" ]]; then
+	"$YADM_DIR/packages.arch"
+else
+	echo "Unknown OS, skipping package installer"
+fi

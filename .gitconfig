@@ -1,6 +1,3 @@
-[user]
-	name = SamoKopecky
-	email = sano.kopecky@gmail.com
 [core]
 	editor = vim
 [alias]
@@ -12,3 +9,5 @@
 	cm = commit -as
 [push]
 	default = current
+[include]
+	path = .gitconfig.user
