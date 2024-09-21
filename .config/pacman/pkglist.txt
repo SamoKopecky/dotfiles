@@ -56,7 +56,6 @@ python-black
 python-dotenv
 python-pip
 python-pipx
-python311
 smartmontools
 spotify-launcher
 steam
