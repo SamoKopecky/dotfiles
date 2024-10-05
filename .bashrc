@@ -82,9 +82,10 @@ export PATH="$PATH:$HOME/go/bin"
 export PATH="$PATH:/opt/FreeTube"
 export PATH="$PATH:/opt/discord/discord"
 
-export EDITOR='vim'
+export EDITOR='nvim'
 
-export KUBE_EDITOR='vim'
+export KUBE_EDITOR='nvim'
+export K9S_EDITOR='nvim'
 export PYENV_ROOT="$HOME/.pyenv"
 export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
 
