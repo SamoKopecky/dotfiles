@@ -13,6 +13,10 @@ pipx inject konsave setuptools
 konsave -i ~/.config/konsave/profiles/samo.knsv
 konsave -a samo
 
+# Enable network manager
+sudo systemctl enable NetworkManager.service
+sudo systemctl start NetworkManager.service
+
 # Install cargo
 curl https://sh.rustup.rs -sSf | sh
 
