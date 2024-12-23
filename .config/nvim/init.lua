@@ -216,7 +216,7 @@ require('lazy').setup({
   require 'plugins.autocomplete.nvim_cmp',
 
   -- require 'plugins.debug',
-  -- require 'plugins.indent_line',
+  require 'plugins.indent_line',
   -- require 'plugins.neo-tree',
 
   { 'Bilal2453/luvit-meta', lazy = true },
