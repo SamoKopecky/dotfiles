@@ -135,6 +135,8 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror msg' })
+vim.keymap.set('n', '<leader>nd', vim.diagnostic.goto_next, { desc = 'Jump [N]ext [D]iagnostic' })
+vim.keymap.set('n', '<leader>pd', vim.diagnostic.goto_prev, { desc = 'Jump [P]revious [D]iagnostic' })
 
 -- vim.keymap.set('n', '<leader>ef', ':NvimTreeOpen<CR>', { desc = 'Show diagnostic [E]rror msg' })
 
