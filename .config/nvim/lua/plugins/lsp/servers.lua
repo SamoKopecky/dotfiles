@@ -23,4 +23,9 @@ return {
       },
     },
   },
+  prettier = {},
+  volar = { filetypes = { 'vue', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }, init_options = { vue = { hybridMode = false } } },
+  -- ts_ls = { filetypes = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' } },
+  eslint = {},
+  cssls = {},
 }
