@@ -220,7 +220,19 @@ require('lazy').setup({
 
   -- require 'plugins.debug',
   -- require 'plugins.neo-tree',
-  { 'norcalli/nvim-colorizer.lua' },
+  --
+  {
+    'windwp/nvim-ts-autotag',
+    config = function()
+      require('nvim-ts-autotag').setup()
+    end,
+  },
+  {
+    'norcalli/nvim-colorizer.lua',
+    config = function()
+      require('colorizer').setup()
+    end,
+  },
   { 'Bilal2453/luvit-meta', lazy = true },
   { -- Detect tabstop and shiftwidth automatically
     'numToStr/Comment.nvim',
@@ -323,6 +335,5 @@ require('lazy').setup({
   },
 })
 
-require('colorizer').setup()
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
