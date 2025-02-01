@@ -51,6 +51,10 @@ vim.g.maplocalleader = ' '
 
 vim.o.termguicolors = true
 
+-- Tab size
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+
 -- Move lines
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv'", { desc = 'Move line down' })
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv'", { desc = 'Move line up' })
