@@ -3,4 +3,5 @@ return {
   'ruff',
   'black',
   'markdownlint',
+  'prettier',
 }
