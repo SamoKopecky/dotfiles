@@ -44,4 +44,5 @@ return {
   -- },
   eslint = {},
   cssls = {},
+  gopls = {},
 }
