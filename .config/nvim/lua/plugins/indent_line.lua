@@ -9,6 +9,7 @@ return {
       },
       indent = {
         char = '▏',
+        tab_char = '▏',
       },
     },
     config = function(_, opts)

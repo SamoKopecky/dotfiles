@@ -4,4 +4,6 @@ return {
   'black',
   'markdownlint',
   'prettier',
+  'jq',
+  'sql-formatter',
 }

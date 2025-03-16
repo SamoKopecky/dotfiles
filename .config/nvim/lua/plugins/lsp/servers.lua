@@ -24,8 +24,24 @@ return {
     },
   },
   prettier = {},
-  volar = { filetypes = { 'vue', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }, init_options = { vue = { hybridMode = false } } },
-  -- ts_ls = { filetypes = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' } },
+  volar = {
+    filetypes = { 'vue', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+    init_options = { vue = { hybridMode = false } },
+  },
+  -- volar = { filetypes = { 'vue' } },
+  -- ts_ls = {
+  --   filetypes = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
+  -- },
+  --   init_options = {
+  --     plugins = {
+  --       {
+  --         name = '@vue/typescript-plugin',
+  --         location = 'install pacakge inside project',
+  --         languages = { 'vue', 'javascript', 'typescript' },
+  --       },
+  --     },
+  --   },
+  -- },
   eslint = {},
   cssls = {},
 }
