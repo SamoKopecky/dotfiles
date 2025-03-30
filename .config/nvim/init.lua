@@ -165,6 +165,15 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', {
+  desc = 'Toggle [S]pectre',
+})
+vim.keymap.set('n', '<leader>ssw', '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
+  desc = '[S]pectere [S]earch current [W]ord',
+})
+vim.keymap.set('v', '<leader>ssw', '<esc><cmd>lua require("spectre").open_visual()<CR>', {
+  desc = '[S]pectere [S]earch current [W]ord',
+})
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -224,7 +233,16 @@ require('lazy').setup({
 
   -- require 'plugins.debug',
   -- require 'plugins.neo-tree',
-  --
+
+  {
+    'mhinz/vim-startify',
+  },
+  {
+    'nvim-lua/plenary.nvim',
+  },
+  {
+    'nvim-pack/nvim-spectre',
+  },
   {
     'windwp/nvim-ts-autotag',
     config = function()

@@ -6,4 +6,5 @@ return {
   'prettier',
   'jq',
   'sql-formatter',
+  'shfmt',
 }
