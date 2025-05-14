@@ -14,6 +14,8 @@ return {
   ---@module "neo-tree"
   ---@type neotree.Config?
   opts = {
-    popup_border_style = 'NC',
+    window = {
+      width = 20,
+    },
   },
 }

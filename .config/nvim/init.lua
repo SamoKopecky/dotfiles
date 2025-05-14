@@ -179,6 +179,11 @@ vim.keymap.set('n', '<leader>t', '<Cmd>Neotree focus<CR>', {
   noremap = true,
   desc = 'Focus Neo-[T]ree',
 })
+vim.keymap.set('n', '<C-t>', '<Cmd>Neotree close<CR>', {
+  silent = true,
+  noremap = true,
+  desc = '[C]lose Neo-[T]ree',
+})
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
