@@ -174,7 +174,11 @@ vim.keymap.set('n', '<leader>ssw', '<cmd>lua require("spectre").open_visual({sel
 vim.keymap.set('v', '<leader>ssw', '<esc><cmd>lua require("spectre").open_visual()<CR>', {
   desc = '[S]pectere [S]earch current [W]ord',
 })
-
+vim.keymap.set('n', '<leader>t', '<Cmd>Neotree focus<CR>', {
+  silent = true,
+  noremap = true,
+  desc = 'Focus Neo-[T]ree',
+})
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -234,7 +238,16 @@ require('lazy').setup({
   require 'plugins.autocomplete.nvim_cmp',
 
   -- require 'plugins.debug',
-
+  {
+    'antosha417/nvim-lsp-file-operations',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-neo-tree/neo-tree.nvim',
+    },
+    config = function()
+      require('lsp-file-operations').setup()
+    end,
+  },
   {
     'mhinz/vim-startify',
   },
