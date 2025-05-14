@@ -26,7 +26,7 @@ Kickstart Guide:
   Once you've completed that, you can continue working through **AND READING** the rest
   of the kickstart init.lua.
 
-  Next, run AND READ `:help`.
+  Next, run AND READ `:help`.init
     This will open up a help window with some basic information
     about reading, navigating and searching the builtin help documentation.
 
@@ -215,13 +215,15 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   require 'plugins.venv_selector',
   require 'plugins.autopairs',
-  require 'plugins.nvim_tree',
+  -- require 'plugins.nvim_tree',
+  require 'plugins.neo-tree',
   require 'plugins.vim_tmux_navigator',
   require 'plugins.gitsigns',
   require 'plugins.which_key',
   require 'plugins.telescope',
   require 'plugins.theme',
   require 'plugins.indent_line',
+  require 'plugins.harpoon',
 
   require 'plugins.lsp.lazydev',
   require 'plugins.lsp.nvim_lspconfig',
@@ -232,7 +234,6 @@ require('lazy').setup({
   require 'plugins.autocomplete.nvim_cmp',
 
   -- require 'plugins.debug',
-  -- require 'plugins.neo-tree',
 
   {
     'mhinz/vim-startify',
@@ -306,7 +307,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'python', 'rust' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'python', 'rust', 'css' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
