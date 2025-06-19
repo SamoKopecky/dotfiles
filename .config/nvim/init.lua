@@ -243,6 +243,9 @@ require('lazy').setup({
   require 'plugins.autocomplete.nvim_cmp',
 
   -- require 'plugins.debug',
+  -- {
+  --   'github/copilot.vim',
+  -- },
   {
     'antosha417/nvim-lsp-file-operations',
     dependencies = {

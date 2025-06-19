@@ -163,33 +163,55 @@ return {
     --
     --
 
-    local servers = require 'plugins.lsp.servers'
     -- Ensure the servers and tools above are installed
     --  To check the current status of installed tools and/or manually install
     --  other tools, you can run
     --    :Mason
     --
     --  You can press `g?` for help in this menu.
+    function dump(o)
+      if type(o) == 'table' then
+        local s = '{ '
+        for k, v in pairs(o) do
+          if type(k) ~= 'number' then
+            k = '"' .. k .. '"'
+          end
+          s = s .. '[' .. k .. '] = ' .. dump(v) .. ','
+        end
+        return s .. '} '
+      else
+        return tostring(o)
+      end
+    end
+
+    local servers = require 'plugins.lsp.servers'
     require('mason').setup()
 
     -- You can add other tools here that you want Mason to install
     -- for you, so that they are available from within Neovim.
-    local ensure_installed = vim.tbl_keys(servers or {})
+    local ensure_installed = vim.tbl_keys {}
     vim.list_extend(ensure_installed, require 'plugins.lsp.mason')
 
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+    print 'test!!'
 
     require('mason-lspconfig').setup {
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          -- This handles overriding only values explicitly passed
-          -- by the server configuration above. Useful when disabling
-          -- certain features of an LSP (for example, turning off formatting for ts_ls)
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
-        end,
-      },
+      ensure_installed = {},
+      automatic_enable = false,
     }
+
+    for server_name, _ in pairs(servers) do
+      print '--- CONFIGURING SERVER ---'
+      print('Server: ' .. server_name)
+      print('Custom settings found: ' .. vim.inspect(server_name))
+
+      local server_config = servers[server_name] or {}
+      server_config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server_config.capabilities or {})
+
+      require('lspconfig')[server_name].setup(server_config)
+
+      print('Finished setting up ' .. server_name)
+      print '--------------------------'
+    end
   end,
 }

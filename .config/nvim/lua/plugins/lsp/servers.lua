@@ -1,3 +1,6 @@
+-- local mason_registry = require 'mason-registry'
+-- local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server'
+
 return {
   basedpyright = {
     settings = {
@@ -25,23 +28,19 @@ return {
   },
   prettier = {},
   volar = {
-    filetypes = { 'vue', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
-    init_options = { vue = { hybridMode = false } },
+    filetypes = { 'vue' },
+    init_options = {
+      vue = {
+        hybridMode = false,
+      },
+    },
   },
+  -- vue_ls = { filetypes = { 'test' } },
+
   -- volar = { filetypes = { 'vue' } },
-  -- ts_ls = {
-  --   filetypes = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
-  -- },
-  --   init_options = {
-  --     plugins = {
-  --       {
-  --         name = '@vue/typescript-plugin',
-  --         location = 'install pacakge inside project',
-  --         languages = { 'vue', 'javascript', 'typescript' },
-  --       },
-  --     },
-  --   },
-  -- },
+  ts_ls = {
+    filetypes = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
+  },
   eslint = {},
   cssls = {},
   gopls = {},
