@@ -63,6 +63,7 @@ vim.keymap.set('x', '<leader>p', '"_dP"', { desc = 'Paste and delete into null b
 
 vim.keymap.set('n', '<leader>b', ':b#<CR>', { desc = 'Previous [b]uffer' })
 
+vim.o.swapfile = false
 vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]

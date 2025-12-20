@@ -23,26 +23,31 @@ return {
       },
     },
   },
-  prettier = {},
+  -- Vue.js LSP Setup (Hybrid Mode - Latest Convention)
+  -- Volar handles .vue files, vtsls handles .ts/.js files
   volar = {
-    filetypes = { 'vue', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
-    init_options = { vue = { hybridMode = false } },
+    filetypes = { 'vue' },
   },
-  -- volar = { filetypes = { 'vue' } },
-  -- ts_ls = {
-  --   filetypes = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
-  -- },
-  --   init_options = {
-  --     plugins = {
-  --       {
-  --         name = '@vue/typescript-plugin',
-  --         location = 'install pacakge inside project',
-  --         languages = { 'vue', 'javascript', 'typescript' },
-  --       },
-  --     },
-  --   },
-  -- },
-  eslint = {},
+  vtsls = {
+    settings = {
+      vtsls = {
+        tsserver = {
+          globalPlugins = {
+            {
+              name = '@vue/typescript-plugin',
+              location = require('mason-registry').get_package('vue-language-server'):get_install_path()
+                .. '/node_modules/@vue/language-server',
+              languages = { 'vue' },
+              configNamespace = 'typescript',
+              enableForWorkspaceTypeScriptVersions = true,
+            },
+          },
+        },
+      },
+    },
+    filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+  },
+  -- eslint = {},
   cssls = {},
   gopls = {},
 }
