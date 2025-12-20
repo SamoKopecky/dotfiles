@@ -35,8 +35,7 @@ return {
           globalPlugins = {
             {
               name = '@vue/typescript-plugin',
-              location = require('mason-registry').get_package('vue-language-server'):get_install_path()
-                .. '/node_modules/@vue/language-server',
+              location = require('mason-registry').get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server',
               languages = { 'vue' },
               configNamespace = 'typescript',
               enableForWorkspaceTypeScriptVersions = true,
@@ -47,7 +46,13 @@ return {
     },
     filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
   },
-  -- eslint = {},
+  eslint = {
+    -- Disable formatting (handled by eslint_d via conform)
+    on_attach = function(client, bufnr)
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
+    end,
+  },
   cssls = {},
   gopls = {},
 }
