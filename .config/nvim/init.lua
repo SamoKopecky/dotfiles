@@ -223,7 +223,7 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
-  require 'plugins.venv_selector',
+  -- require 'plugins.venv_selector',
   require 'plugins.autopairs',
   -- require 'plugins.nvim_tree',
   require 'plugins.neo-tree',

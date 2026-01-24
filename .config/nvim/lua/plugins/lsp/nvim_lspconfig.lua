@@ -163,7 +163,6 @@ return {
     --
     --
 
-    local servers = require 'plugins.lsp.servers'
     -- Ensure the servers and tools above are installed
     --  To check the current status of installed tools and/or manually install
     --  other tools, you can run
@@ -172,24 +171,30 @@ return {
     --  You can press `g?` for help in this menu.
     require('mason').setup()
 
-    -- You can add other tools here that you want Mason to install
-    -- for you, so that they are available from within Neovim.
-    local ensure_installed = vim.tbl_keys(servers or {})
-    vim.list_extend(ensure_installed, require 'plugins.lsp.mason')
+    local servers = require 'plugins.lsp.servers'
+    local mason_packages = require 'plugins.lsp.mason'
 
-    require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+    -- Install non-LSP tools (formatters, linters, etc.)
+    require('mason-tool-installer').setup { ensure_installed = mason_packages }
 
+    -- Install and configure LSP servers
     require('mason-lspconfig').setup {
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          -- This handles overriding only values explicitly passed
-          -- by the server configuration above. Useful when disabling
-          -- certain features of an LSP (for example, turning off formatting for ts_ls)
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
-        end,
-      },
+      ensure_installed = vim.tbl_keys(servers or {}),
     }
+
+    -- Configure each server using vim.lsp.enable for Nvim 0.11+
+    for server_name, server_config in pairs(servers) do
+      local server = server_config
+      -- If server config is a function, call it to get the actual config
+      if type(server) == 'function' then
+        server = server()
+      end
+
+      server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+
+      -- Use vim.lsp.config to override default config for Nvim 0.11+
+      local default_config = vim.lsp.config[server_name] or {}
+      vim.lsp.config[server_name] = vim.tbl_deep_extend('force', default_config, server)
+    end
   end,
 }

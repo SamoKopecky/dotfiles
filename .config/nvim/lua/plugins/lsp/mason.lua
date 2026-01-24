@@ -1,5 +1,5 @@
 return {
-  -- Formatters
+  -- Formatters and other tools (not LSP servers)
   'stylua', -- Lua
   'ruff', -- Python
   'black', -- Python

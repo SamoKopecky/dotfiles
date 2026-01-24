@@ -24,28 +24,25 @@ return {
     },
   },
   -- Vue.js LSP Setup (Hybrid Mode - Latest Convention)
-  -- Volar handles .vue files, vtsls handles .ts/.js files
-  volar = {
-    filetypes = { 'vue' },
-  },
-  vtsls = {
-    settings = {
-      vtsls = {
-        tsserver = {
-          globalPlugins = {
-            {
-              name = '@vue/typescript-plugin',
-              location = require('mason-registry').get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server',
-              languages = { 'vue' },
-              configNamespace = 'typescript',
-              enableForWorkspaceTypeScriptVersions = true,
-            },
+  -- ts_ls handles TypeScript/JavaScript + Vue files with Vue plugin
+  -- vue_ls handles CSS/HTML in Vue files
+  ts_ls = function()
+    local vue_language_server_path = vim.fn.stdpath('data') .. '/mason/packages/vue-language-server/node_modules/@vue/language-server'
+
+    return {
+      filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+      init_options = {
+        plugins = {
+          {
+            name = '@vue/typescript-plugin',
+            location = vue_language_server_path,
+            languages = { 'vue' },
           },
         },
       },
-    },
-    filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-  },
+    }
+  end,
+  vue_ls = {},
   eslint = {
     -- Disable formatting (handled by eslint_d via conform)
     on_attach = function(client, bufnr)
