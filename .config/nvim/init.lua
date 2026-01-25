@@ -233,15 +233,15 @@ require('lazy').setup({
   require 'plugins.telescope',
   require 'plugins.theme',
   require 'plugins.indent_line',
-  require 'plugins.harpoon',
+  -- require 'plugins.harpoon',
 
   require 'plugins.lsp.lazydev',
-  require 'plugins.lsp.nvim_lspconfig',
+  require 'plugins.lsp.config',
 
-  require 'plugins.code_tools.conform',
-  require 'plugins.code_tools.lint',
+  require 'plugins.tools.conform',
+  require 'plugins.tools.lint',
 
-  require 'plugins.autocomplete.nvim_cmp',
+  require 'plugins.nvim_cmp',
 
   -- require 'plugins.debug',
   {
@@ -316,7 +316,7 @@ require('lazy').setup({
       end
 
       -- ... and there is more!
-      --  Check out: https://github.com/echasnovski/mini.nvim
+      --  Check out: https://github.com/echasnovski/mini.nvimini
     end,
   },
 

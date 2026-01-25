@@ -30,6 +30,6 @@ return { -- Autoformat
         lsp_format = lsp_format_opt,
       }
     end,
-    formatters_by_ft = require 'plugins.code_tools.formatters',
+    formatters_by_ft = require 'plugins.tools.formatters',
   },
 }

@@ -171,8 +171,8 @@ return {
     --  You can press `g?` for help in this menu.
     require('mason').setup()
 
-    local servers = require 'plugins.lsp.servers'
-    local mason_packages = require 'plugins.lsp.mason'
+    local servers = require 'plugins.lsp.packages_lsp'
+    local mason_packages = require 'plugins.lsp.packages'
 
     -- Install non-LSP tools (formatters, linters, etc.)
     require('mason-tool-installer').setup { ensure_installed = mason_packages }
