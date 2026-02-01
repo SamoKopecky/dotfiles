@@ -1,6 +1,6 @@
 return {
   lua = { 'stylua' },
-  python = { 'ruff' },
+  python = { 'ruff_format', 'ruff_fix', 'ruff_organize_imports' },
   rust = { 'rust_analyzer' },
   markdown = { 'markdownlint' },
   json = { 'jq' },

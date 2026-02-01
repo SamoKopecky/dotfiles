@@ -1,26 +1,14 @@
--- return {
---   'AlexvZyl/nordic.nvim',
---   lazy = false,
---   priority = 1000,
---   config = function()
---     require('nordic').load()
---   end,
--- }
-
 return {
-  'HoNamDuong/hybrid.nvim',
+  'nickkadutskyi/jb.nvim',
   lazy = false,
   priority = 1000,
-  opts = {
-    overrides = function(hl, c)
-      local red = '#ff0000'
-      -- hl.Type = {
-      --   fg = red,
-      -- }
-    end,
-  },
-  config = function(_, opts)
-    require('hybrid').setup(opts)
-    vim.cmd.colorscheme 'hybrid'
+  config = function()
+    vim.o.background = 'dark'
+    vim.cmd.colorscheme 'jb'
+    local dark_orange = '#AA4926'
+    vim.api.nvim_set_hl(0, 'LanguageDefaults_Classes_InstanceField', { fg = dark_orange })
+    vim.api.nvim_set_hl(0, 'LanguageDefaults_Classes_StaticField', { fg = dark_orange, italic = true })
+    vim.api.nvim_set_hl(0, 'LanguageDefaults_Identifiers_Constant', { fg = dark_orange, italic = true })
+    vim.api.nvim_set_hl(0, 'GenericLanguage_Keyword2', { fg = dark_orange })
   end,
 }
