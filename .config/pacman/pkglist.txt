@@ -44,7 +44,6 @@ networkmanager
 networkmanager-openconnect
 obs-studio
 os-prober
-pgcli
 pipewire
 pipewire-alsa
 pipewire-jack
@@ -52,7 +51,6 @@ pipewire-pulse
 plasma-meta
 plasma-workspace
 pre-commit
-python-black
 python-dotenv
 python-pip
 python-pipx
@@ -76,3 +74,11 @@ zsh
 go
 fd
 ripgrep
+i3-wm
+i3status
+xsecurelock
+rofi
+feh
+flameshot
+playerctl
+pavucontrol
