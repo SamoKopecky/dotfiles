@@ -1,0 +1,13 @@
+configuration {
+    modi:                   "drun,run,window";
+    show-icons:             true;
+    icon-theme:             "Papirus";
+    drun-display-format:    "{name}";
+    display-drun:           "Apps";
+    display-run:            "Run";
+    display-window:         "Windows";
+    sidebar-mode:           false;
+    font:                   "JetBrainsMono Nerd Font 11";
+}
+
+@theme "Arc-Dark"
