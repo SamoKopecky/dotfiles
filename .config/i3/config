@@ -13,11 +13,12 @@ set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:JetBrainsMono Nerd Font 10
+font pango:JetBrainsMono Nerd Font 8
 
-# No title bar, no border — focus shown via picom inactive-dim.
-default_border pixel 0
-default_floating_border pixel 0
+# Title bar shown, no extra border.
+default_border normal 0
+default_floating_border normal 0
+title_align center
 
 # Gaps between windows (matches polybar/picom aesthetic)
 gaps inner 8
@@ -25,7 +26,7 @@ gaps outer 2
 
 # Window colors — neutral grey bg, blue focus accent
 # class                 border    bg        text      indicator child_border
-client.focused          #C9DCFF   #2D3138   #E0E1DD   #A8C7FF   #C9DCFF
+client.focused          #2D3138   #2D3138   #E0E1DD   #2D3138   #2D3138
 client.focused_inactive #2D3138   #2D3138   #E0E1DD   #2D3138   #2D3138
 client.unfocused        #1F2228   #1F2228   #6B7280   #1F2228   #1F2228
 client.urgent           #FF6B6B   #FF6B6B   #E0E1DD   #FF6B6B   #FF6B6B
