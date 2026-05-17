@@ -20,9 +20,9 @@ default_border normal 0
 default_floating_border normal 0
 title_align center
 
-# Gaps between windows (matches polybar/picom aesthetic)
-gaps inner 8
-gaps outer 2
+# No gaps between windows.
+gaps inner 0
+gaps outer 0
 
 # Window colors — neutral grey bg, blue focus accent
 # class                 border    bg        text      indicator child_border
