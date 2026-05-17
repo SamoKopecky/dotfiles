@@ -75,10 +75,12 @@ go
 fd
 ripgrep
 i3-wm
-i3status
 xsecurelock
 rofi
 feh
 flameshot
 playerctl
 pavucontrol
+polybar
+dunst
+gsimplecal

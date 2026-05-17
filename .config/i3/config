@@ -15,9 +15,22 @@ set $mod Mod1
 # is used in the bar {} block below.
 font pango:JetBrainsMono Nerd Font 10
 
-# Title bar without extra border width
-default_border normal 0
-default_floating_border normal 0
+# No title bar, no border — focus shown via picom inactive-dim.
+default_border pixel 0
+default_floating_border pixel 0
+
+# Gaps between windows (matches polybar/picom aesthetic)
+gaps inner 8
+gaps outer 2
+
+# Window colors — neutral grey bg, blue focus accent
+# class                 border    bg        text      indicator child_border
+client.focused          #C9DCFF   #2D3138   #E0E1DD   #A8C7FF   #C9DCFF
+client.focused_inactive #2D3138   #2D3138   #E0E1DD   #2D3138   #2D3138
+client.unfocused        #1F2228   #1F2228   #6B7280   #1F2228   #1F2228
+client.urgent           #FF6B6B   #FF6B6B   #E0E1DD   #FF6B6B   #FF6B6B
+client.placeholder      #1F2228   #1F2228   #E0E1DD   #1F2228   #1F2228
+client.background       #1F2228
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -45,15 +58,23 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- xsecurelock
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+# Compositor (rounded corners, shadows, fade, blur)
+exec_always --no-startup-id picom -b
+
 # Notification daemon
 exec_always --no-startup-id dunst
 
-# Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
+# Status bar (polybar — replaces i3bar+i3status; see bar block at bottom)
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+
+# Keyboard layouts: cycle us <-> sk via Win+Space (X11 grp toggle)
+exec_always --no-startup-id setxkbmap -layout us,sk -option "" -option terminate:ctrl_alt_bksp -option grp:win_space_toggle
+
+# Volume: script handles pactl + dunst OSD; polybar pulseaudio module updates live.
 set $vol_notify ~/.config/i3/scripts/volume-notify.sh
-bindsym XF86AudioRaiseVolume exec --no-startup-id $vol_notify up   && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id $vol_notify down && $refresh_i3status
-bindsym XF86AudioMute        exec --no-startup-id $vol_notify mute && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id $vol_notify up
+bindsym XF86AudioLowerVolume exec --no-startup-id $vol_notify down
+bindsym XF86AudioMute        exec --no-startup-id $vol_notify mute
 bindsym XF86AudioMicMute     exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # Media keys (Spotify + any MPRIS player)
@@ -226,13 +247,4 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-        position top
-        status_command i3status
-        tray_padding 2
-        tray_output primary
-        separator_symbol "│"
-        font pango:JetBrainsMono Nerd Font 10
-}
+# Status bar handled by polybar (autostarted above). i3bar disabled.

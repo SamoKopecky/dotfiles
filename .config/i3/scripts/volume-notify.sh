@@ -18,9 +18,9 @@ vol=$(pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d+(?=%)' | head -1)
 mute=$(pactl get-sink-mute @DEFAULT_SINK@ | grep -oP '(?<=Mute: )\w+')
 
 if [ "$mute" = "yes" ]; then
-    dunstify -a "volume" -r 1000 -t 1500 -u low \
+    dunstify -a "volume" -r 1000 -t 1500 -u normal \
         "Volume" "Muted" -h int:value:0
 else
-    dunstify -a "volume" -r 1000 -t 1500 -u low \
+    dunstify -a "volume" -r 1000 -t 1500 -u normal \
         "Volume" "${vol}%" -h "int:value:${vol}"
 fi
