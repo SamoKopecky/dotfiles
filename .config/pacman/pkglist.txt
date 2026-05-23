@@ -23,6 +23,7 @@ go
 grim
 grub
 gst-plugin-pipewire
+gvfs
 helm
 htop
 hyprlock
@@ -75,9 +76,11 @@ swayidle
 swayr
 synology-drive
 terraform
+thunar
 tk
 tmux
 ttf-jetbrains-mono-nerd
+tumbler
 vim
 waybar
 wget
