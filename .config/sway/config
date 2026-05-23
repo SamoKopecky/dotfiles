@@ -44,9 +44,15 @@ input "type:keyboard" {
 #==========================================================
 exec dex --autostart --environment sway
 exec spotify-launcher
-exec nm-applet --indicator
+exec /usr/lib/polkit-kde-authentication-agent-1
 exec_always dunst
-exec_always sh -c "pkill -x waybar; waybar"
+exec_always sh -c "pkill -x waybar; waybar & sleep 1; pkill -x nm-applet; nm-applet --indicator &"
+exec_always sh -c "pkill -x swayrd; swayrd"
+exec_always sh -c "pkill -x swayidle; swayidle -w \
+    timeout 300 'hyprlock' \
+    timeout 600 'swaymsg \"output * power off\"' \
+        resume 'swaymsg \"output * power on\"' \
+    before-sleep 'hyprlock'"
 
 # Spotify on workspace 8
 for_window [class="Spotify"] move to workspace number 8
@@ -70,14 +76,14 @@ bindsym $mod+Shift+q kill
 
 # Launcher (fuzzel — native Wayland)
 bindsym $mod+d exec fuzzel
-# Window switcher via sway IPC + fuzzel dmenu mode
-bindsym $mod+Tab exec sh -c 'swaymsg -t get_tree | jq -r ".. | objects | select(.type==\"con\" and .name) | \"\(.id)\t\(.name)\"" | fuzzel --dmenu | cut -f1 | xargs -I {} swaymsg "[con_id={}]" focus'
+# Window switcher via swayr (MRU + icons via fuzzel)
+bindsym $mod+Tab exec swayr switch-window
 
 # Lock screen
 bindsym $mod+Shift+x exec hyprlock
 
 # Power menu
-bindsym $mod+Shift+p exec ~/.config/i3/scripts/powermenu.sh
+bindsym $mod+Shift+p exec ~/.config/sway/scripts/powermenu.sh
 
 # Focus
 bindsym $mod+h focus left
@@ -168,7 +174,7 @@ bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit sway?' -B 'Yes' 'swaymsg e
 #==========================================================
 # Volume (script provides dunst OSD; works on Wayland via dbus)
 #==========================================================
-set $vol_notify ~/.config/i3/scripts/volume-notify.sh
+set $vol_notify ~/.config/sway/scripts/volume-notify.sh
 bindsym XF86AudioRaiseVolume exec $vol_notify up
 bindsym XF86AudioLowerVolume exec $vol_notify down
 bindsym XF86AudioMute        exec $vol_notify mute
@@ -183,11 +189,9 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioStop exec playerctl stop
 
 #==========================================================
-# Screenshots (flameshot works via xdg-desktop-portal-wlr on sway)
+# Screenshots (grim + slurp + satty)
 #==========================================================
-bindsym Print       exec flameshot gui
-bindsym Shift+Print exec flameshot full -c
-bindsym Ctrl+Print  exec flameshot screen -c
+bindsym Print exec ~/.config/sway/scripts/screenshot.sh
 
 #==========================================================
 # Notifications (dunst)
