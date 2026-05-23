@@ -1,0 +1,109 @@
+/* Waybar style — blue accent on neutral grey, matches sway/mako theme */
+
+* {
+	font-family: "JetBrainsMono Nerd Font", monospace;
+	font-size: 14px;
+	min-height: 0;
+}
+
+window#waybar {
+	background-color: #1F2228;
+	color: #E0E1DD;
+	border: none;
+	border-radius: 0;
+}
+
+#workspaces {
+	background-color: transparent;
+	margin: 0 4px;
+}
+
+#workspaces button {
+	color: #6B7280;
+	background-color: transparent;
+	padding: 0 8px;
+	margin: 2px 1px;
+	border-bottom: 2px solid transparent;
+	border-radius: 0;
+}
+
+#workspaces button:hover {
+	background: rgba(168, 199, 255, 0.1);
+	box-shadow: none;
+	text-shadow: none;
+}
+
+#workspaces button.focused {
+	color: #E0E1DD;
+	background-color: #2D3138;
+	border-bottom: 2px solid #A8C7FF;
+}
+
+#workspaces button.urgent {
+	color: #FF6B6B;
+	background-color: rgba(255, 107, 107, 0.15);
+	border-bottom: 2px solid #FF6B6B;
+}
+
+#mode {
+	color: #1F2228;
+	background-color: #A8C7FF;
+	padding: 0 8px;
+}
+
+#clock,
+#disk,
+#pulseaudio,
+#language,
+#memory,
+#cpu,
+#temperature,
+#network,
+#tray {
+	padding: 0 5px;
+	color: #E0E1DD;
+}
+
+#clock {
+	color: #A8C7FF;
+	font-weight: bold;
+}
+
+#language {
+	color: #A8C7FF;
+}
+
+#pulseaudio.muted {
+	color: #FF6B6B;
+}
+
+#temperature.critical {
+	color: #FF6B6B;
+}
+
+#network.disconnected {
+	color: #FF6B6B;
+}
+
+#tray {
+	background-color: transparent;
+}
+
+#tray>.passive {
+	-gtk-icon-effect: dim;
+}
+
+#tray>.needs-attention {
+	-gtk-icon-effect: highlight;
+}
+
+tooltip {
+	background-color: #1F2228;
+	border: 1px solid #A8C7FF;
+	border-radius: 6px;
+}
+
+tooltip label {
+	color: #E0E1DD;
+	padding: 4px 8px;
+}

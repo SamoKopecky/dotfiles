@@ -1,0 +1,87 @@
+// Waybar — text labels like polybar (CPU/RAM/TEMP/VOL)
+// Docs: https://github.com/Alexays/Waybar/wiki
+{
+    "layer": "top",
+    "position": "top",
+    "height": 28,
+    "spacing": 0,
+
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": [],
+    "modules-right": [
+        "pulseaudio",
+        "sway/language",
+        "memory",
+        "cpu",
+        "temperature",
+        "network",
+        "tray",
+        "clock"
+    ],
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": false,
+        "format": "{name}"
+    },
+
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+
+    "sway/language": {
+        "format": "{short}",
+        "on-click": "swaymsg input type:keyboard xkb_switch_layout next"
+    },
+
+    "clock": {
+        "interval": 30,
+        "format": "{:%a %Y-%m-%d  %H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "on-click": "gsimplecal"
+    },
+
+    "disk": {
+        "interval": 30,
+        "format": "<span color=\"#A8C7FF\">DISK </span>{percentage_used}% ",
+        "path": "/"
+    },
+
+    "pulseaudio": {
+        "format": "<span color=\"#A8C7FF\">VOL </span>{volume}%",
+        "format-muted": "<span color=\"#FF6B6B\">VOL </span>muted",
+        "scroll-step": 5,
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-right": "pavucontrol"
+    },
+
+    "cpu": {
+        "interval": 2,
+        "format": "<span color=\"#A8C7FF\">CPU </span>{usage:2}%"
+    },
+
+    "memory": {
+        "interval": 3,
+        "format": "<span color=\"#A8C7FF\">RAM </span>{used:0.1f}G/{total:0.1f}G"
+    },
+
+    "temperature": {
+        "interval": 2,
+        "hwmon-path": "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon1/temp1_input",
+        "critical-threshold": 80,
+        "format": "{temperatureC}°C",
+        "format-critical": "<span color=\"#FF6B6B\">TEMP </span>{temperatureC}°C"
+    },
+
+    "network": {
+        "interface": "enp4s0",
+        "format-ethernet": "<span color=\"#A8C7FF\">{ifname} </span>",
+        "format-disconnected": "<span color=\"#A8C7FF\">{ifname} </span><span color=\"#6B7280\">disconnected</span>",
+        "tooltip-format": "{ifname}: {ipaddr}/{cidr}\n{gwaddr}"
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
+    }
+}

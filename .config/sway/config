@@ -1,0 +1,224 @@
+# sway config — ported from ~/.config/i3/config
+# https://github.com/swaywm/sway/wiki
+
+set $mod Mod1
+
+font pango:JetBrainsMono Nerd Font 8
+
+# Borders + gaps (match i3)
+default_border normal 0
+default_floating_border normal 0
+title_align center
+
+gaps inner 0
+gaps outer 0
+
+# Window colors — neutral grey bg, blue focus accent
+# class                 border    bg        text      indicator child_border
+client.focused          #2D3138   #2D3138   #E0E1DD   #2D3138   #2D3138
+client.focused_inactive #2D3138   #2D3138   #E0E1DD   #2D3138   #2D3138
+client.unfocused        #1F2228   #1F2228   #6B7280   #1F2228   #1F2228
+client.urgent           #FF6B6B   #FF6B6B   #E0E1DD   #FF6B6B   #FF6B6B
+client.placeholder      #1F2228   #1F2228   #E0E1DD   #1F2228   #1F2228
+client.background       #1F2228
+
+#==========================================================
+# Outputs (wallpaper, scaling)
+#==========================================================
+output * bg /home/samo/SynologyDrive/MyStuff/Pictures/space/blue_space_4k.jpg fill
+
+# Monitor layout: HDMI-A-1 left, DP-2 right (144Hz)
+output HDMI-A-1 position 0,0 mode 1920x1080@60Hz
+output DP-2     position 1920,0 mode 1920x1080@144Hz
+
+#==========================================================
+# Input (keyboard layouts: us <-> sk via Win+Space)
+#==========================================================
+input "type:keyboard" {
+    xkb_layout us,sk
+    xkb_options grp:win_space_toggle,terminate:ctrl_alt_bksp
+}
+
+#==========================================================
+# Autostart
+#==========================================================
+exec dex --autostart --environment sway
+exec spotify-launcher
+exec nm-applet --indicator
+exec_always dunst
+exec_always sh -c "pkill -x waybar; waybar"
+
+# Spotify on workspace 8
+for_window [class="Spotify"] move to workspace number 8
+
+#==========================================================
+# No native sway bar — waybar runs via exec_always above.
+#==========================================================
+
+#==========================================================
+# Keybindings
+#==========================================================
+
+# Floating drag modifier
+floating_modifier $mod normal
+
+# Terminal
+bindsym $mod+Return exec alacritty
+
+# Kill focused
+bindsym $mod+Shift+q kill
+
+# Launcher (fuzzel — native Wayland)
+bindsym $mod+d exec fuzzel
+# Window switcher via sway IPC + fuzzel dmenu mode
+bindsym $mod+Tab exec sh -c 'swaymsg -t get_tree | jq -r ".. | objects | select(.type==\"con\" and .name) | \"\(.id)\t\(.name)\"" | fuzzel --dmenu | cut -f1 | xargs -I {} swaymsg "[con_id={}]" focus'
+
+# Lock screen
+bindsym $mod+Shift+x exec hyprlock
+
+# Power menu
+bindsym $mod+Shift+p exec ~/.config/i3/scripts/powermenu.sh
+
+# Focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Split
+bindsym $mod+backslash split h
+bindsym $mod+v split v
+
+# Fullscreen
+bindsym $mod+f fullscreen toggle
+
+# Container layout
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Floating
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+# Parent focus
+bindsym $mod+a focus parent
+
+# Workspaces
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# Move focused window between outputs (Shift+. = >, Shift+, = <)
+bindsym --to-code $mod+Shift+period move container to output right
+bindsym --to-code $mod+Shift+comma  move container to output left
+
+# Move whole workspace between outputs (Ctrl variant)
+bindsym --to-code $mod+Ctrl+Shift+period move workspace to output right
+bindsym --to-code $mod+Ctrl+Shift+comma  move workspace to output left
+
+# Reload / restart / exit
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit sway?' -B 'Yes' 'swaymsg exit'
+
+#==========================================================
+# Volume (script provides dunst OSD; works on Wayland via dbus)
+#==========================================================
+set $vol_notify ~/.config/i3/scripts/volume-notify.sh
+bindsym XF86AudioRaiseVolume exec $vol_notify up
+bindsym XF86AudioLowerVolume exec $vol_notify down
+bindsym XF86AudioMute        exec $vol_notify mute
+bindsym XF86AudioMicMute     exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+#==========================================================
+# Media keys
+#==========================================================
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioStop exec playerctl stop
+
+#==========================================================
+# Screenshots (flameshot works via xdg-desktop-portal-wlr on sway)
+#==========================================================
+bindsym Print       exec flameshot gui
+bindsym Shift+Print exec flameshot full -c
+bindsym Ctrl+Print  exec flameshot screen -c
+
+#==========================================================
+# Notifications (dunst)
+#==========================================================
+bindsym $mod+grave       exec dunstctl close
+bindsym $mod+Shift+grave exec dunstctl close-all
+bindsym $mod+n           exec dunstctl history-pop
+bindsym $mod+Shift+n     exec dunstctl context
+
+#==========================================================
+# Resize mode
+#==========================================================
+mode "resize" {
+    bindsym h resize shrink width  10px
+    bindsym j resize grow   height 10px
+    bindsym k resize shrink height 10px
+    bindsym l resize grow   width  10px
+
+    bindsym Left  resize shrink width  10px
+    bindsym Down  resize grow   height 10px
+    bindsym Up    resize shrink height 10px
+    bindsym Right resize grow   width  10px
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+#==========================================================
+# Include extra files
+#==========================================================
+include /etc/sway/config.d/*
