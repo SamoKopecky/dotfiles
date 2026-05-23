@@ -158,13 +158,9 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
-# Move focused window between outputs (Shift+. = >, Shift+, = <)
-bindsym --to-code $mod+Shift+period move container to output right
-bindsym --to-code $mod+Shift+comma  move container to output left
-
 # Move whole workspace between outputs (Ctrl variant)
-bindsym --to-code $mod+Ctrl+Shift+period move workspace to output right
-bindsym --to-code $mod+Ctrl+Shift+comma  move workspace to output left
+bindsym --to-code $mod+Shift+period move workspace to output right
+bindsym --to-code $mod+Shift+comma  move workspace to output left
 
 # Reload / restart / exit
 bindsym $mod+Shift+c reload
