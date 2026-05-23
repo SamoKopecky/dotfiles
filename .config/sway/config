@@ -46,7 +46,8 @@ exec dex --autostart --environment sway
 exec spotify-launcher
 exec /usr/lib/polkit-kde-authentication-agent-1
 exec_always dunst
-exec_always sh -c "pkill -x waybar; waybar & sleep 1; pkill -x nm-applet; nm-applet --indicator &"
+exec_always sh -c "pkill -x waybar; waybar"
+exec_always sh -c "sleep 2; pkill -x nm-applet; nm-applet --indicator"
 exec_always sh -c "pkill -x swayrd; swayrd"
 exec_always sh -c "pkill -x swayidle; swayidle -w \
     timeout 300 'hyprlock' \
