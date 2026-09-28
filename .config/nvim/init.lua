@@ -169,16 +169,7 @@ vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- <C-h/j/k/l> window navigation comes from vim-tmux-navigator
-vim.keymap.set('n', '<leader>t', '<Cmd>Neotree focus<CR>', {
-  silent = true,
-  noremap = true,
-  desc = 'Focus Neo-[T]ree',
-})
-vim.keymap.set('n', '<leader>tc', '<Cmd>Neotree close<CR>', {
-  silent = true,
-  noremap = true,
-  desc = '[C]lose Neo-[T]ree',
-})
+vim.keymap.set('n', '<leader>t', '<Cmd>Neotree toggle<CR>', { silent = true, desc = 'Toggle Neo-[T]ree' })
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
