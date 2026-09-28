@@ -43,6 +43,28 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 vim.keymap.set('n', '<leader>t', '<Cmd>Neotree toggle<CR>', { silent = true, desc = 'Toggle Neo-[T]ree' })
 -- <C-h/j/k/l> window navigation comes from vim-tmux-navigator
 
+-- Copy `path:line` (visual: `path:start-end`) relative to the repo root,
+-- e.g. to point Claude at code
+vim.keymap.set({ 'n', 'x' }, '<leader>yr', function()
+  local file = vim.api.nvim_buf_get_name(0)
+  if file == '' or vim.bo.buftype ~= '' then
+    vim.notify('Not a file buffer', vim.log.levels.WARN)
+    return
+  end
+  local root = vim.fs.root(0, '.git') or vim.fn.getcwd()
+  local path = vim.fs.relpath(root, file) or vim.fn.fnamemodify(file, ':.')
+  local first, last = vim.fn.line 'v', vim.fn.line '.'
+  if first > last then
+    first, last = last, first
+  end
+  local ref = first == last and ('%s:%d'):format(path, last) or ('%s:%d-%d'):format(path, first, last)
+  vim.fn.setreg('+', ref)
+  if vim.fn.mode():match '[vV\22]' then
+    vim.api.nvim_feedkeys(vim.keycode '<Esc>', 'nx', false)
+  end
+  vim.notify('Copied ' .. ref)
+end, { desc = '[Y]ank code [r]eference (path:line)' })
+
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
@@ -68,6 +90,23 @@ vim.keymap.set('n', '<leader>pd', function()
 end, { desc = 'Jump [P]revious [D]iagnostic' })
 
 -- [[ Autocommands ]]
+-- Reload buffers changed on disk by other programs (e.g. Claude in another pane).
+-- Buffers with unsaved changes are never overwritten; nvim asks instead.
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+  group = vim.api.nvim_create_augroup('auto-reload', { clear = true }),
+  callback = function()
+    if vim.fn.getcmdwintype() == '' then
+      vim.cmd 'checktime'
+    end
+  end,
+})
+vim.api.nvim_create_autocmd('FileChangedShellPost', {
+  group = 'auto-reload',
+  callback = function(args)
+    vim.notify('Reloaded ' .. vim.fn.fnamemodify(args.file, ':.') .. ' (changed on disk)')
+  end,
+})
+
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking text',
   group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
