@@ -1,14 +1,34 @@
--- NOTE: need treesitter cli to be installed
-return { -- Highlight, edit, and navigate code
+-- main branch: needs the tree-sitter CLI to build parsers
+return {
   'nvim-treesitter/nvim-treesitter',
   lazy = false,
   build = ':TSUpdate',
   branch = 'main',
-  -- [[ Configure Treesitter ]] See `:help nvim-treesitter-intro`
   config = function()
     local parsers = {
-      'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc',
-      'python', 'rust', 'css', 'javascript', 'typescript', 'tsx', 'vue', 'go', 'json', 'yaml', 'sql', 'toml',
+      'bash',
+      'c',
+      'diff',
+      'html',
+      'lua',
+      'luadoc',
+      'markdown',
+      'markdown_inline',
+      'query',
+      'vim',
+      'vimdoc',
+      'python',
+      'rust',
+      'css',
+      'javascript',
+      'typescript',
+      'tsx',
+      'vue',
+      'go',
+      'json',
+      'yaml',
+      'sql',
+      'toml',
     }
     require('nvim-treesitter').install(parsers)
     vim.api.nvim_create_autocmd('FileType', {
@@ -27,11 +47,6 @@ return { -- Highlight, edit, and navigate code
         end
         -- enables syntax highlighting and other treesitter features
         vim.treesitter.start(buf, language)
-
-        -- enables treesitter based folds
-        -- for more info on folds see `:help folds`
-        -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-        -- vim.wo.foldmethod = 'expr'
 
         -- enables treesitter based indentation
         vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"

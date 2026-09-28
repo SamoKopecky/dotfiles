@@ -5,7 +5,7 @@ return {
   ft = 'lua',
   opts = {
     library = {
-      -- Load luvit types when the `vim.uv` word is found
+      -- Load luv (libuv) types when `vim.uv` is used
       { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
     },
   },

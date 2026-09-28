@@ -14,22 +14,16 @@ return {
   },
   rust_analyzer = {},
   lua_ls = {
-    -- cmd = {... },
-    -- filetypes = { ... },
-    -- capabilities = {},
     settings = {
       Lua = {
         completion = {
           callSnippet = 'Replace',
         },
-        -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-        -- diagnostics = { disable = { 'missing-fields' } },
       },
     },
   },
-  -- Vue.js LSP Setup (Hybrid Mode - Latest Convention)
-  -- ts_ls handles TypeScript/JavaScript + Vue files with Vue plugin
-  -- vue_ls handles CSS/HTML in Vue files
+  -- Vue hybrid mode: ts_ls handles TS/JS + <script> in .vue via @vue/typescript-plugin,
+  -- vue_ls handles template/CSS
   ts_ls = function()
     local vue_language_server_path = vim.fn.stdpath 'data' .. '/mason/packages/vue-language-server/node_modules/@vue/language-server'
 

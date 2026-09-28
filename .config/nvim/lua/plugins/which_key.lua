@@ -1,6 +1,6 @@
-return { -- Useful plugin to show you pending keybinds.
+return { -- Shows pending keybinds
   'folke/which-key.nvim',
-  event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+  event = 'VimEnter',
   opts = {
     icons = { mappings = true },
 
