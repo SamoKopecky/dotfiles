@@ -230,6 +230,7 @@ require('lazy').setup({
   require 'plugins.neo-tree',
   require 'plugins.vim_tmux_navigator',
   require 'plugins.gitsigns',
+  require 'plugins.codediff',
   require 'plugins.which_key',
   require 'plugins.telescope',
   require 'plugins.theme',
