@@ -56,10 +56,10 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 
 -- Move lines
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv'", { desc = 'Move line down' })
-vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv'", { desc = 'Move line up' })
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move line down' })
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move line up' })
 
-vim.keymap.set('x', '<leader>p', '"_dP"', { desc = 'Paste and delete into null buffer' })
+vim.keymap.set('x', '<leader>p', '"_dP', { desc = 'Paste and delete into null buffer' })
 
 vim.keymap.set('n', '<leader>b', ':b#<CR>', { desc = 'Previous [b]uffer' })
 
@@ -140,8 +140,22 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror msg' })
-vim.keymap.set('n', '<leader>nd', vim.diagnostic.goto_next, { desc = 'Jump [N]ext [D]iagnostic' })
-vim.keymap.set('n', '<leader>pd', vim.diagnostic.goto_prev, { desc = 'Jump [P]revious [D]iagnostic' })
+-- Show the diagnostic float after every jump (<leader>nd/pd, ]d/[d)
+vim.diagnostic.config {
+  jump = {
+    on_jump = function(diagnostic, bufnr)
+      if diagnostic then
+        vim.diagnostic.open_float { bufnr = bufnr, scope = 'cursor', focus = false }
+      end
+    end,
+  },
+}
+vim.keymap.set('n', '<leader>nd', function()
+  vim.diagnostic.jump { count = 1 }
+end, { desc = 'Jump [N]ext [D]iagnostic' })
+vim.keymap.set('n', '<leader>pd', function()
+  vim.diagnostic.jump { count = -1 }
+end, { desc = 'Jump [P]revious [D]iagnostic' })
 
 -- vim.keymap.set('n', '<leader>ef', ':NvimTreeOpen<CR>', { desc = 'Show diagnostic [E]rror msg' })
 
@@ -180,7 +194,7 @@ vim.keymap.set('n', '<leader>t', '<Cmd>Neotree focus<CR>', {
   noremap = true,
   desc = 'Focus Neo-[T]ree',
 })
-vim.keymap.set('n', '<C-t>', '<Cmd>Neotree close<CR>', {
+vim.keymap.set('n', '<leader>tc', '<Cmd>Neotree close<CR>', {
   silent = true,
   noremap = true,
   desc = '[C]lose Neo-[T]ree',
@@ -195,20 +209,20 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
-    vim.highlight.on_yank()
+    vim.hl.on_yank()
   end,
 })
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
   local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
   if vim.v.shell_error ~= 0 then
     error('Error cloning lazy.nvim:\n' .. out)
   end
-end ---@diagnostic disable-next-line: undefined-field
+end
 vim.opt.rtp:prepend(lazypath)
 
 -- [[ Configure and install plugins ]]
@@ -305,30 +319,6 @@ require('lazy').setup({
     end,
   },
 
-  { -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
-    -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-    opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'python', 'rust', 'css' },
-      -- Autoinstall languages that are not installed
-      auto_install = true,
-      highlight = {
-        enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
-      },
-      indent = { enable = true, disable = { 'ruby' } },
-    },
-    -- There are additional nvim-treesitter modules that you can use to interact
-    -- with nvim-treesitter. You should go explore a few and see what interests you:
-    --
-    --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-    --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-  },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and

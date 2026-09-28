@@ -3,8 +3,8 @@ return {
   'neovim/nvim-lspconfig',
   dependencies = {
     -- Automatically install LSPs and related tools to stdpath for Neovim
-    { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
-    'williamboman/mason-lspconfig.nvim',
+    'mason-org/mason.nvim',
+    'mason-org/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
 
     -- Useful status updates for LSP.
@@ -63,7 +63,7 @@ return {
         map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
         -- Find references for the word under your cursor.
-        map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+        map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
         -- Jump to the implementation of the word under your cursor.
         --  Useful when your language has ways of declaring types without an actual implementation.
@@ -102,7 +102,7 @@ return {
         --
         -- When you move your cursor, the highlights will be cleared (the second autocommand).
         local client = vim.lsp.get_client_by_id(event.data.client_id)
-        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
           local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
           vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
             buffer = event.buf,
@@ -129,7 +129,7 @@ return {
         -- code, if the language server you are using supports them
         --
         -- This may be unwanted, since they displace some of your code
-        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
           map('<leader>Th', function()
             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
           end, '[T]oggle Inlay [H]ints')
@@ -141,8 +141,7 @@ return {
     --  By default, Neovim doesn't support everything that is in the LSP specification.
     --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
     --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
     -- Enable the following language servers
     --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -182,19 +181,14 @@ return {
       ensure_installed = vim.tbl_keys(servers or {}),
     }
 
-    -- Configure each server using vim.lsp.enable for Nvim 0.11+
-    for server_name, server_config in pairs(servers) do
-      local server = server_config
-      -- If server config is a function, call it to get the actual config
+    -- Shared capabilities for every server, then per-server overrides.
+    -- mason-lspconfig enables installed servers via vim.lsp.enable().
+    vim.lsp.config('*', { capabilities = capabilities })
+    for server_name, server in pairs(servers) do
       if type(server) == 'function' then
         server = server()
       end
-
-      server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-
-      -- Use vim.lsp.config to override default config for Nvim 0.11+
-      local default_config = vim.lsp.config[server_name] or {}
-      vim.lsp.config[server_name] = vim.tbl_deep_extend('force', default_config, server)
+      vim.lsp.config(server_name, server)
     end
   end,
 }

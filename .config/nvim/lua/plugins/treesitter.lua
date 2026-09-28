@@ -6,9 +6,13 @@ return { -- Highlight, edit, and navigate code
   branch = 'main',
   -- [[ Configure Treesitter ]] See `:help nvim-treesitter-intro`
   config = function()
-    local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'python', 'rust', 'css' }
+    local parsers = {
+      'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc',
+      'python', 'rust', 'css', 'javascript', 'typescript', 'tsx', 'vue', 'go', 'json', 'yaml', 'sql', 'toml',
+    }
     require('nvim-treesitter').install(parsers)
     vim.api.nvim_create_autocmd('FileType', {
+      group = vim.api.nvim_create_augroup('treesitter-start', { clear = true }),
       callback = function(args)
         local buf, filetype = args.buf, args.match
 
@@ -30,7 +34,7 @@ return { -- Highlight, edit, and navigate code
         -- vim.wo.foldmethod = 'expr'
 
         -- enables treesitter based indentation
-        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
       end,
     })
   end,
