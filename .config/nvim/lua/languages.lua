@@ -47,11 +47,11 @@ local languages = {
     mason = { 'ruff' },
   },
 
-  rust = {
-    parsers = { 'rust' },
-    lsp = { rust_analyzer = {} },
-    formatters = { 'rustfmt' }, -- from the rust toolchain, not Mason
-  },
+  -- rust = {
+  --   parsers = { 'rust' },
+  --   lsp = { rust_analyzer = {} },
+  --   formatters = { 'rustfmt' }, -- from the rust toolchain, not Mason
+  -- },
 
   go = {
     parsers = { 'go' },
