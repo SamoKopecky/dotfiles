@@ -7,6 +7,10 @@ return {
         },
       },
     },
+    -- disable semantic tokens so treesitter handles highlighting
+    on_attach = function(client)
+      client.server_capabilities.semanticTokensProvider = nil
+    end,
   },
   rust_analyzer = {},
   lua_ls = {
