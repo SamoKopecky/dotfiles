@@ -25,6 +25,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.o.inccommand = 'split' -- live preview of :s
 vim.o.cursorline = true
 vim.o.scrolloff = 10
+vim.o.foldlevel = 99 -- open files unfolded (folds come from treesitter, see plugins/treesitter.lua)
 
 -- Sync with the OS clipboard; scheduled because it can slow down startup
 vim.schedule(function()
