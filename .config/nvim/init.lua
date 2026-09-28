@@ -14,7 +14,7 @@ vim.o.showmode = false -- shown in lualine
 vim.o.breakindent = true
 vim.o.undofile = true
 vim.o.ignorecase = true -- case-insensitive search unless \C or a capital letter
-vim.o.smartcase = true
+vim.o.smartcase = trua
 vim.o.signcolumn = 'yes'
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
@@ -107,40 +107,11 @@ require('lazy').setup({
   require 'plugins.tools.lint',
 
   require 'plugins.nvim_cmp',
-
-  { -- LSP-aware renames/moves from neo-tree
-    'antosha417/nvim-lsp-file-operations',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-neo-tree/neo-tree.nvim',
-    },
-    config = function()
-      require('lsp-file-operations').setup()
-    end,
-  },
-  { -- Auto close/rename HTML/Vue tags
-    'windwp/nvim-ts-autotag',
-    config = function()
-      require('nvim-ts-autotag').setup()
-    end,
-  },
-  { -- Color code highlighting
-    'catgoose/nvim-colorizer.lua',
-    config = function()
-      require('colorizer').setup()
-    end,
-  },
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-
-  {
-    'nvim-mini/mini.nvim',
-    config = function()
-      -- Around/inside textobjects, e.g. va) yinq ci'
-      require('mini.ai').setup { n_lines = 500 }
-      -- Surround: saiw) add, sd' delete, sr)' replace
-      require('mini.surround').setup()
-    end,
-  },
+  require 'plugins.lsp_file_operations',
+  require 'plugins.autotag',
+  require 'plugins.colorizer',
+  require 'plugins.todo_comments',
+  require 'plugins.mini',
 }, {
   rocks = { enabled = false },
 })
