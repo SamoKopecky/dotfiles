@@ -5,31 +5,7 @@ return {
   build = ':TSUpdate',
   branch = 'main',
   config = function()
-    local parsers = {
-      'bash',
-      'c',
-      'diff',
-      'html',
-      'lua',
-      'luadoc',
-      'markdown',
-      'markdown_inline',
-      'query',
-      'vim',
-      'vimdoc',
-      'python',
-      'rust',
-      'css',
-      'javascript',
-      'typescript',
-      'tsx',
-      'vue',
-      'go',
-      'json',
-      'yaml',
-      'sql',
-      'toml',
-    }
+    local parsers = require('languages').parsers() -- defined per language in lua/languages.lua
     require('nvim-treesitter').install(parsers)
     vim.api.nvim_create_autocmd('FileType', {
       group = vim.api.nvim_create_augroup('treesitter-start', { clear = true }),

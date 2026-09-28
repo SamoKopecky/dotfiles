@@ -67,13 +67,13 @@ return {
 
     require('mason').setup()
 
-    local servers = require 'plugins.lsp.packages_lsp'
-    local mason_packages = require 'plugins.lsp.packages'
+    local languages = require 'languages'
+    local servers = languages.servers()
 
     -- Non-LSP tools (formatters, linters)
-    require('mason-tool-installer').setup { ensure_installed = mason_packages }
+    require('mason-tool-installer').setup { ensure_installed = languages.mason_tools() }
 
-    -- Only servers listed in packages_lsp.lua get installed and enabled,
+    -- Only servers listed in languages.lua get installed and enabled,
     -- even if Mason has others installed.
     local server_names = vim.tbl_keys(servers)
     require('mason-lspconfig').setup {
@@ -84,9 +84,6 @@ return {
     -- Shared capabilities for every server, then per-server overrides
     vim.lsp.config('*', { capabilities = require('cmp_nvim_lsp').default_capabilities() })
     for server_name, server in pairs(servers) do
-      if type(server) == 'function' then
-        server = server()
-      end
       vim.lsp.config(server_name, server)
     end
   end,
