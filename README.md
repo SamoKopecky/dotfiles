@@ -17,52 +17,37 @@ only), tmux plugins, konsave profile and rustup.
 
 ## Neovim dependencies
 
-Neovim **0.12+** is required (nvim-treesitter `main` branch).
+Requires Neovim 0.12 or newer, for the nvim-treesitter `main` branch.
 
-Plugins, LSP servers and formatters install themselves on first start (lazy.nvim
-and Mason), but they need these tools on the system first.
-
-### Arch one-liner
+lazy.nvim and Mason install plugins, LSP servers and formatters on first
+start. They need these system packages:
 
 ```shell
 sudo pacman -S --needed neovim tree-sitter-cli base-devel git curl wget unzip \
   tar gzip ripgrep fd python python-pip go ruby wl-clipboard
 ```
 
-Node comes from [nvm](https://github.com/nvm-sh/nvm), Rust from rustup
-(bootstrap installs it).
+Node is installed with [nvm](https://github.com/nvm-sh/nvm), Rust with rustup
+(`yadm bootstrap` runs it).
 
-### What needs what
+| Tool                                  | Used by                                                          |
+| ------------------------------------- | ---------------------------------------------------------------- |
+| `tree-sitter` CLI                     | nvim-treesitter, to compile parsers                              |
+| C compiler, `make`                    | treesitter parsers, telescope-fzf-native, LuaSnip                |
+| `git`                                 | lazy.nvim, Mason                                                 |
+| `curl` or `wget`, `unzip`, `tar`, `gzip` | Mason; codediff.nvim, to download its diff library            |
+| `ripgrep`                             | telescope live grep, nvim-spectre                                |
+| `fd`                                  | telescope file search                                            |
+| `node`, `npm`                         | Mason: ts_ls, vue_ls, eslint, cssls, prettier, eslint_d, markdownlint, sql-formatter |
+| `python`, `pip`                       | Mason: basedpyright                                              |
+| `go`                                  | Mason: gopls                                                     |
+| `ruby`, `gem`                         | Mason: ruby_lsp                                                  |
+| `cargo`                               | Rust projects edited with rust_analyzer                          |
+| `wl-clipboard`                        | system clipboard on Wayland; `xclip` on X11                      |
+| Nerd Font                             | icons in neo-tree, lualine, codediff                             |
 
-| Tool                     | Needed by                                                                 |
-| ------------------------ | ------------------------------------------------------------------------- |
-| `tree-sitter` CLI        | nvim-treesitter `main` compiles parsers with it. **Easy to forget.**      |
-| C compiler, `make`       | treesitter parsers, telescope-fzf-native, LuaSnip (`base-devel`)          |
-| `git`                    | lazy.nvim, Mason                                                          |
-| `curl`/`wget`, `unzip`, `tar`, `gzip` | Mason downloads; codediff.nvim fetches its diff library      |
-| `ripgrep`                | telescope live grep, nvim-spectre                                         |
-| `fd`                     | telescope file finder                                                     |
-| `node` + `npm`           | Mason: ts_ls, vue_ls, eslint, cssls, prettier, eslint_d, markdownlint, sql-formatter |
-| `python` + `pip`         | Mason: basedpyright                                                       |
-| `go`                     | Mason: gopls                                                              |
-| `ruby` + `gem`           | Mason: ruby_lsp                                                           |
-| `cargo` (rustup)         | rust toolchain for rust_analyzer projects                                 |
-| `wl-clipboard`           | system clipboard on Wayland (`xclip` on X11)                              |
-| Nerd Font                | icons in neo-tree, lualine, codediff explorer                             |
+Mason packages are listed in `~/.config/nvim/lua/plugins/lsp/packages_lsp.lua`
+(LSP servers) and `~/.config/nvim/lua/plugins/lsp/packages.lua` (other tools).
 
-LSP servers and tools Mason installs are listed in
-`~/.config/nvim/lua/plugins/lsp/packages_lsp.lua` and
-`~/.config/nvim/lua/plugins/lsp/packages.lua`.
-
-### Checking a new machine
-
-Inside nvim:
-
-```vim
-:checkhealth
-:Mason
-:Lazy
-```
-
-`:CodeDiff install` re-downloads codediff's diff library if the auto download
-failed.
+To check a new install, run `:checkhealth`, `:Mason` and `:Lazy`. If the
+codediff library download failed, run `:CodeDiff install`.
