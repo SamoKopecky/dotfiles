@@ -59,6 +59,12 @@ return {
       keymaps = {
         history = { fold_close_all = false },
       },
+      explorer = {
+        -- folders instead of a flat list; single-child chains flatten
+        view_mode = 'tree',
+        -- +added -removed per file and per group
+        line_stats = { enabled = true },
+      },
     },
     init = function()
       vim.api.nvim_create_autocmd('FileType', {
