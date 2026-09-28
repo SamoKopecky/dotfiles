@@ -177,8 +177,12 @@ return {
     require('mason-tool-installer').setup { ensure_installed = mason_packages }
 
     -- Install and configure LSP servers
+    -- Only servers listed in packages_lsp.lua get installed and enabled,
+    -- even if Mason has others installed.
+    local server_names = vim.tbl_keys(servers)
     require('mason-lspconfig').setup {
-      ensure_installed = vim.tbl_keys(servers or {}),
+      ensure_installed = server_names,
+      automatic_enable = server_names,
     }
 
     -- Shared capabilities for every server, then per-server overrides.

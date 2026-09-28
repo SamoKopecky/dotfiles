@@ -49,15 +49,13 @@ If you experience any errors while trying to install kickstart, run `:checkhealt
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.o.termguicolors = true
-
 -- Tab size
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 
 -- Move lines
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move line down' })
-vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move line up' })
+vim.keymap.set('x', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move line down' })
+vim.keymap.set('x', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move line up' })
 
 vim.keymap.set('x', '<leader>p', '"_dP', { desc = 'Paste and delete into null buffer' })
 
@@ -157,8 +155,6 @@ vim.keymap.set('n', '<leader>pd', function()
   vim.diagnostic.jump { count = -1 }
 end, { desc = 'Jump [P]revious [D]iagnostic' })
 
--- vim.keymap.set('n', '<leader>ef', ':NvimTreeOpen<CR>', { desc = 'Show diagnostic [E]rror msg' })
-
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -172,23 +168,7 @@ vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
---  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-vim.keymap.set('n', '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', {
-  desc = 'Toggle [S]pectre',
-})
-vim.keymap.set('n', '<leader>ssw', '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
-  desc = '[S]pectere [S]earch current [W]ord',
-})
-vim.keymap.set('v', '<leader>ssw', '<esc><cmd>lua require("spectre").open_visual()<CR>', {
-  desc = '[S]pectere [S]earch current [W]ord',
-})
+-- <C-h/j/k/l> window navigation comes from vim-tmux-navigator
 vim.keymap.set('n', '<leader>t', '<Cmd>Neotree focus<CR>', {
   silent = true,
   noremap = true,
@@ -237,10 +217,8 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
-  -- require 'plugins.venv_selector',
   require 'plugins.treesitter',
   require 'plugins.autopairs',
-  -- require 'plugins.nvim_tree',
   require 'plugins.neo-tree',
   require 'plugins.vim_tmux_navigator',
   require 'plugins.gitsigns',
@@ -250,7 +228,7 @@ require('lazy').setup({
   require 'plugins.theme',
   require 'plugins.lualine',
   require 'plugins.indent_line',
-  -- require 'plugins.harpoon',
+  require 'plugins.grug_far',
 
   require 'plugins.lsp.lazydev',
   require 'plugins.lsp.config',
@@ -260,7 +238,6 @@ require('lazy').setup({
 
   require 'plugins.nvim_cmp',
 
-  -- require 'plugins.debug',
   {
     'antosha417/nvim-lsp-file-operations',
     dependencies = {
@@ -270,15 +247,6 @@ require('lazy').setup({
     config = function()
       require('lsp-file-operations').setup()
     end,
-  },
-  {
-    'mhinz/vim-startify',
-  },
-  {
-    'nvim-lua/plenary.nvim',
-  },
-  {
-    'nvim-pack/nvim-spectre',
   },
   {
     'windwp/nvim-ts-autotag',
@@ -292,15 +260,10 @@ require('lazy').setup({
       require('colorizer').setup()
     end,
   },
-  { 'Bilal2453/luvit-meta', lazy = true },
-  { -- Detect tabstop and shiftwidth automatically
-    'numToStr/Comment.nvim',
-    opts = {},
-  },
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
   { -- Collection of various small independent plugins/modules
-    'echasnovski/mini.nvim',
+    'nvim-mini/mini.nvim',
     config = function()
       -- Better Around/Inside textobjects
       --
@@ -330,25 +293,8 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
 }, {
-  ui = {
-    -- If you are using a Nerd Font: set icons to an empty table which will use the
-    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-    icons = vim.g.have_nerd_font and {} or {
-      cmd = '⌘',
-      config = '🛠',
-      event = '📅',
-      ft = '📂',
-      init = '⚙',
-      keys = '🗝',
-      plugin = '🔌',
-      runtime = '💻',
-      require = '🌙',
-      source = '📄',
-      start = '🚀',
-      task = '📌',
-      lazy = '💤 ',
-    },
-  },
+  rocks = { enabled = false },
+
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`

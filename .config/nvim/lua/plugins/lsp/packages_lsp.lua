@@ -57,4 +57,6 @@ return {
   cssls = {},
   gopls = {},
   ruff = {},
+  bashls = {},
+  dockerls = {},
 }
