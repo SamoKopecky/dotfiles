@@ -52,6 +52,18 @@ return {
         end,
         desc = 'Git diff [b]ranch vs default branch',
       },
+      {
+        '<leader>gB',
+        function()
+          -- Stacked PRs: diff against the parent branch instead of main
+          vim.ui.input({ prompt = 'Base branch: ', completion = 'customlist,v:lua.CodeDiffBranches' }, function(base)
+            if base and base ~= '' then
+              vim.cmd('CodeDiff ' .. base .. '...')
+            end
+          end)
+        end,
+        desc = 'Git diff [B]ranch vs chosen base',
+      },
       { '<leader>gh', '<cmd>CodeDiff history<cr>', desc = 'Git [h]istory' },
       { '<leader>gf', '<cmd>CodeDiff history %<cr>', desc = 'Git history of [f]ile' },
     },
@@ -67,6 +79,64 @@ return {
       },
     },
     init = function()
+      -- Branch completion for the <leader>gB prompt
+      _G.CodeDiffBranches = function(lead)
+        return vim.tbl_filter(function(b)
+          return vim.startswith(b, lead)
+        end, vim.fn.systemlist { 'git', 'for-each-ref', '--format=%(refname:short)', 'refs/heads', 'refs/remotes' })
+      end
+
+      -- Entry point for shell aliases: `nvim '+CodeDiffOpen branch'`.
+      -- Modes: local (default), staged, branch, history; anything else is passed
+      -- straight to :CodeDiff. Every :CodeDiff opens its own tab, so the empty
+      -- tab nvim started with gets closed once the diff tab shows up
+      vim.api.nvim_create_user_command('CodeDiffOpen', function(cmd)
+        local mode = cmd.args ~= '' and cmd.args or 'local'
+        local args
+        if mode == 'local' then
+          args = ''
+        elseif mode == 'staged' then
+          args = '--staged'
+        elseif mode == 'branch' then
+          local base = default_branch()
+          if not base then
+            vim.notify('codediff: no default branch found (origin/HEAD, main, master)', vim.log.levels.WARN)
+            return
+          end
+          args = base .. '...'
+        else
+          args = mode
+        end
+
+        local start_tab = vim.api.nvim_get_current_tabpage()
+        local start_buf = vim.api.nvim_get_current_buf()
+        local start_empty = #vim.api.nvim_tabpage_list_wins(start_tab) == 1
+          and vim.api.nvim_buf_get_name(start_buf) == ''
+          and not vim.bo[start_buf].modified
+          and vim.api.nvim_buf_line_count(start_buf) == 1
+          and vim.api.nvim_buf_get_lines(start_buf, 0, 1, false)[1] == ''
+        if start_empty then
+          vim.api.nvim_create_autocmd('TabNewEntered', {
+            once = true,
+            callback = function()
+              vim.schedule(function()
+                if vim.api.nvim_tabpage_is_valid(start_tab) and #vim.api.nvim_list_tabpages() > 1 then
+                  vim.cmd.tabclose(vim.api.nvim_tabpage_get_number(start_tab))
+                end
+              end)
+            end,
+          })
+        end
+
+        vim.cmd('CodeDiff ' .. args)
+      end, {
+        nargs = '*',
+        complete = function()
+          return { 'local', 'staged', 'branch', 'history' }
+        end,
+        desc = 'Open a CodeDiff view, dropping the empty startup tab',
+      })
+
       vim.api.nvim_create_autocmd('FileType', {
         pattern = 'codediff-history',
         callback = function(args)

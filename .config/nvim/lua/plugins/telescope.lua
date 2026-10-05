@@ -30,6 +30,18 @@ return { -- Fuzzy Finder (files, lsp, etc)
           '--smart-case',
           '--hidden',
         },
+        -- Never open a selection in special windows (neo-tree etc.): neo-tree
+        -- bounces the file to another window and the grep line jump is lost
+        get_selection_window = function()
+          local wins = vim.api.nvim_tabpage_list_wins(0)
+          table.insert(wins, 1, vim.api.nvim_get_current_win())
+          for _, win in ipairs(wins) do
+            if vim.bo[vim.api.nvim_win_get_buf(win)].buftype == '' then
+              return win
+            end
+          end
+          return 0
+        end,
       },
       extensions = {
         ['ui-select'] = {

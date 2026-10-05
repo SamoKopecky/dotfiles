@@ -15,5 +15,10 @@ return {
     window = {
       width = 30,
     },
+    filesystem = {
+      -- `nvim .` opens tree as sidebar instead of taking over the main window,
+      -- so pickers (telescope grep) open files there and keep the jump position
+      hijack_netrw_behavior = 'open_default',
+    },
   },
 }
